@@ -16,17 +16,17 @@ Se PowerShell blocca `npm.ps1`, usa `npm.cmd` al posto di `npm`; per esempio `np
 
 ## Comandi
 
-| Comando                | Scopo                                         |
-| ---------------------- | --------------------------------------------- |
-| `npm ci`               | Installa le versioni esatte del lockfile      |
-| `npm run check`        | Sintassi JS, manifest, coerenza versione      |
-| `npm run format`       | Formatta sorgenti e documentazione            |
-| `npm run format:check` | Controlla senza modificare                    |
-| `npm test`             | Sei test del renderer, senza browser          |
-| `npm run test:package` | Quattro test del pacchetto XPI                |
-| `npm run test:editor`  | Otto test contenteditable in Chromium         |
-| `npm run test:all`     | Renderer e Chromium; packaging resta separato |
-| `npm run build`        | Genera e valida l'XPI in `dist`               |
+| Comando                | Scopo                                          |
+| ---------------------- | ---------------------------------------------- |
+| `npm ci`               | Installa le versioni esatte del lockfile       |
+| `npm run check`        | Sintassi JS, manifest, coerenza versione       |
+| `npm run format`       | Formatta sorgenti e documentazione             |
+| `npm run format:check` | Controlla senza modificare                     |
+| `npm test`             | Nove test renderer/composizione, senza browser |
+| `npm run test:package` | Quattro test del pacchetto XPI                 |
+| `npm run test:editor`  | Otto test contenteditable in Chromium          |
+| `npm run test:all`     | Renderer e Chromium; packaging resta separato  |
+| `npm run build`        | Genera e valida l'XPI in `dist`                |
 
 Per la suite editor, una volta:
 

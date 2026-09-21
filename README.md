@@ -32,7 +32,7 @@ npm run test:package
 npm run build
 ```
 
-Installa **`dist/markdown-diretto-0.1.0.xpi`** in Thunderbird da **Componenti aggiuntivi e temi → ingranaggio → Installa componente aggiuntivo da file**.
+Installa **`dist/markdown-diretto-0.1.1.xpi`** in Thunderbird da **Componenti aggiuntivi e temi → ingranaggio → Installa componente aggiuntivo da file**.
 
 **Lo ZIP del repository non è installabile in Thunderbird.** Estrarlo o rinominarlo in `.xpi` non lo trasforma in un add-on: il pacchetto corretto è quello generato in `dist`.
 
@@ -60,7 +60,7 @@ Senza selezione viene convertito tutto il corpo, purché non contenga firme, cit
 
 ## Stato delle verifiche
 
-Sei test renderer e quattro test packaging passati nell'ambiente Linux di preparazione. Controlli di sintassi, formattazione e build passati. Suite editor Chromium predisposta ma bloccata qui dall'assenza del browser; installazione del browser fallita per timeout. Nessun collaudo completato su Thunderbird reale o Windows.
+Sei test renderer, tre test di composizione senza Web Crypto e quattro test packaging passati nell'ambiente Linux di preparazione. Controlli di sintassi, formattazione e build passati. Suite editor Chromium predisposta ma bloccata qui dall'assenza del browser; installazione del browser fallita per timeout. L’utente ha installato la 0.1.0 su Thunderbird 155.0.1 Windows e segnalato l’errore `crypto.randomUUID is not a function`. La 0.1.1 lo corregge; il collaudo completo sul client resta da terminare.
 
 La CI eseguirà controlli su Windows e Linux e una suite editor separata su Chromium dopo il push. Non è ancora stata eseguita su GitHub.
 

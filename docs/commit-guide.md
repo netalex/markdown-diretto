@@ -1,6 +1,6 @@
 # Leggere la cronologia
 
-Questa è una ricostruzione tematica del prototipo in sette commit, tutti creati durante la preparazione del repository. Ogni passo ha uno scopo leggibile; i primi passi sono parziali e il repository completo da usare è `main` al termine della sequenza.
+Questa è una ricostruzione tematica del prototipo in sette commit iniziali, seguiti da una correzione, tutti creati durante la preparazione del repository. Ogni passo ha uno scopo leggibile; i primi passi sono parziali e il repository completo da usare è `main` al termine della sequenza.
 
 | Passo | Commit                                                                 | Contenuto                                               |
 | ----- | ---------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -19,3 +19,7 @@ git show HEAD~2
 ```
 
 I commit sono locali, non firmati e senza tag di release: il prodotto resta un'alpha da collaudare.
+
+## Ottavo commit: correzione segnalata dall’utente
+
+`fix: avoid unavailable randomUUID in Thunderbird compose editor` — rimuove la dipendenza da Web Crypto, aggiunge tre test di regressione e aggiorna l’estensione alla 0.1.1.

@@ -1,6 +1,6 @@
 {
   "name": "markdown-diretto",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Direct Markdown composition for Thunderbird",
   "private": true,
   "license": "UNLICENSED",
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "check": "node tools/check.mjs",
-    "test": "node --test tests/renderer.test.mjs",
+    "test": "node --test tests/renderer.test.mjs tests/compose.test.mjs",
     "test:editor": "node --test tests/editor.test.mjs",
     "test:all": "npm test && npm run test:editor",
     "format": "prettier --write .",

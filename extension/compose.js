@@ -4,6 +4,17 @@
   const protectedSelector =
     '.moz-signature, blockquote[type="cite"], .moz-cite-prefix, .moz-forward-container';
   const marker = 'data-markdown-diretto';
+  let nextBlockNumber = 0;
+
+  function createBlockId() {
+    // IDs only connect blocks to this document's snapshots; they are not security tokens.
+    let id;
+    do {
+      id = `md-${++nextBlockNumber}`;
+    } while (snapshots.has(id) || document.querySelector(`[${marker}="${id}"]`));
+    return id;
+  }
+
   const elementOf = (node) => (node?.nodeType === 1 ? node : node?.parentElement);
   function selectedRange() {
     const selection = window.getSelection();
@@ -60,7 +71,7 @@
       throw new Error('Seleziona un testo più breve (massimo 200.000 caratteri).');
     const original = document.createElement('div');
     original.append(range.cloneContents());
-    const id = crypto.randomUUID();
+    const id = createBlockId();
     const html = globalThis.MarkdownMailRenderer.render(source);
     replace(range, `<div ${marker}="${id}">${html}</div>`);
     const block = document.querySelector(`[${marker}="${id}"]`);

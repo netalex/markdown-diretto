@@ -2,16 +2,17 @@
 
 ## Risultati della preparazione — 21 settembre 2026
 
-| Verifica                       | Risultato                                                         |
-| ------------------------------ | ----------------------------------------------------------------- |
-| Sintassi JavaScript e manifest | Passata                                                           |
-| Formattazione Prettier         | Passata                                                           |
-| Renderer Node/LinkeDOM         | 6/6 passati                                                       |
-| Packaging Python               | 4/4 passati                                                       |
-| Build ripetuta                 | Byte identici nell'ambiente corrente                              |
-| Suite Chromium                 | 8 casi predisposti; non eseguiti con successo per browser assente |
-| Thunderbird 155.0.1 Windows    | Da eseguire                                                       |
-| GitHub Actions                 | Configurato; non ancora eseguito sul servizio                     |
+| Verifica                                          | Risultato                                                         |
+| ------------------------------------------------- | ----------------------------------------------------------------- |
+| Sintassi JavaScript e manifest                    | Passata                                                           |
+| Formattazione Prettier                            | Passata                                                           |
+| Renderer Node/LinkeDOM                            | 6/6 passati                                                       |
+| Composizione con adattatore DOM, senza Web Crypto | 3/3 passati                                                       |
+| Packaging Python                                  | 4/4 passati                                                       |
+| Build ripetuta                                    | Byte identici nell'ambiente corrente                              |
+| Suite Chromium                                    | 8 casi predisposti; non eseguiti con successo per browser assente |
+| Thunderbird 155.0.1 Windows                       | Da eseguire                                                       |
+| GitHub Actions                                    | Configurato; non ancora eseguito sul servizio                     |
 
 Il download di Chromium nel precedente tentativo è fallito per timeout. Non si dichiara la suite editor superata e non si disabilita il relativo job in CI.
 
@@ -40,3 +41,5 @@ Usare testo fittizio e riportare versione esatta e sistema operativo.
 - [ ] Invio a se stessi e controllo HTML/testo semplice e allegati.
 
 Per ogni bug: passi, risultato atteso, risultato ottenuto, messaggio esatto della console. Evitare email reali e dati personali negli allegati.
+
+I tre test della composizione usano un adattatore minimale per selezione e inserimento HTML sopra LinkeDOM. Verificano il codice effettivo con `crypto` assente e le collisioni degli identificatori; non simulano layout, undo o API Thunderbird.

@@ -6,7 +6,7 @@ Ambiente di riferimento: **Thunderbird 155.0.1 Meadow, Windows 64 bit**.
 
 | File                         | Destinazione                                     |
 | ---------------------------- | ------------------------------------------------ |
-| `markdown-diretto-0.1.0.xpi` | Installazione in Thunderbird                     |
+| `markdown-diretto-0.1.1.xpi` | Installazione in Thunderbird                     |
 | ZIP del repository           | Estrazione dei sorgenti e del bundle Git         |
 | `markdown-diretto.bundle`    | Clonazione con Git per recuperare tutti i commit |
 | `extension/manifest.json`    | Caricamento temporaneo per lo sviluppo           |
@@ -28,7 +28,7 @@ Nella segnalazione iniziale è stato selezionato lo ZIP del progetto. Quel file 
 Verifica un pacchetto dalla cartella del repository:
 
 ```powershell
-python tools/build.py --verify dist/markdown-diretto-0.1.0.xpi
+python tools/build.py --verify dist/markdown-diretto-0.1.1.xpi
 ```
 
 Se anche l'XPI corretto viene rifiutato, annota nome esatto del file, versione Thunderbird ed errore nella Console degli errori (`Ctrl+Shift+J`) al momento dell'installazione. I controlli locali verificano struttura e riferimenti, non sostituiscono il validatore interno di Thunderbird.

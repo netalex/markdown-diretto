@@ -21,7 +21,7 @@
 
 ## Stato e ripristino
 
-Ogni documento di composizione conserva una `Map` di snapshot in memoria. Un identificatore casuale sul blocco HTML collega il risultato allo snapshot; il Markdown originale non viene serializzato nell'email.
+Ogni documento di composizione conserva una `Map` di snapshot in memoria. Un identificatore progressivo, univoco nel documento, sul blocco HTML collega il risultato allo snapshot; il Markdown originale non viene serializzato nell'email.
 
 Il ripristino è consentito solo se l'HTML attuale coincide con quello salvato subito dopo la conversione. Questa scelta conservativa protegge da sovrascritture, ma può rifiutare anche modifiche equivalenti introdotte dall'editor.
 
@@ -49,3 +49,7 @@ Le firme e le citazioni vengono riconosciute dai marcatori DOM usuali di Thunder
 - https://webextension-api.thunderbird.net/en/latest/compose.html
 
 La documentazione consultata riportava Thunderbird 155.0.1. Questi link seguono le versioni correnti del sito; non sono copie immutabili delle specifiche.
+
+## Correzione 0.1.1
+
+Su Thunderbird 155.0.1 Windows l’installazione della 0.1.0 è riuscita, ma la conversione ha segnalato `crypto.randomUUID is not a function`. Gli identificatori servono solo a collegare DOM e snapshot: non devono essere UUID o token crittografici. La 0.1.1 usa un contatore locale e controlla collisioni sia nel DOM sia negli snapshot, senza dipendere da Web Crypto.

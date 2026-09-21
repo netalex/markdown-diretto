@@ -43,3 +43,21 @@ Usare testo fittizio e riportare versione esatta e sistema operativo.
 Per ogni bug: passi, risultato atteso, risultato ottenuto, messaggio esatto della console. Evitare email reali e dati personali negli allegati.
 
 I tre test della composizione usano un adattatore minimale per selezione e inserimento HTML sopra LinkeDOM. Verificano il codice effettivo con `crypto` assente e le collisioni degli identificatori; non simulano layout, undo o API Thunderbird.
+
+## Verifica 0.2.0
+
+- 19 test JavaScript passati: 6 renderer, 3 composizione, 7 lettura, 3 popup di lettura con API simulate.
+- 4 test packaging passati, ora comprensivi dei file della lettura e del secondo popup.
+- L’utente conferma conversione/ripristino in composizione nella 0.1.1 su Thunderbird 155.0.1 Windows.
+- Modalità lettura 0.2.0 da collaudare sul client; API simulate e DOM LinkeDOM non equivalgono a test Thunderbird.
+
+### Checklist lettura
+
+- [ ] Accettazione nuovo permesso e pulsante nella barra del messaggio.
+- [ ] Email plain text con titoli, elenchi, tabelle e codice Markdown.
+- [ ] Email HTML contenente Markdown letterale e interruzioni BR/div.
+- [ ] Ripristino originale, comprese immagini, firma e citazioni.
+- [ ] Cambio messaggio dopo conversione: niente contenuti della precedente email.
+- [ ] Prova in riquadro principale, scheda e finestra separata.
+- [ ] Riapertura email e sorgente originale invariati.
+- [ ] Risposta/inoltro non incorpora modifiche indesiderate della vista; confrontare il corpo citato col messaggio originale.

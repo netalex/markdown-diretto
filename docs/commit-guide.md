@@ -23,3 +23,7 @@ I commit sono locali, non firmati e senza tag di release: il prodotto resta un'a
 ## Ottavo commit: correzione segnalata dall’utente
 
 `fix: avoid unavailable randomUUID in Thunderbird compose editor` — rimuove la dipendenza da Web Crypto, aggiunge tre test di regressione e aggiorna l’estensione alla 0.1.1.
+
+## Nono commit: lettura dei messaggi ricevuti
+
+`feat: add reversible Markdown view for received messages` — aggiunge il pulsante di lettura, snapshot del DOM originale, test dedicati e pacchetto 0.2.0.

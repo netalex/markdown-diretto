@@ -6,7 +6,7 @@ Ambiente di riferimento: **Thunderbird 155.0.1 Meadow, Windows 64 bit**.
 
 | File                         | Destinazione                                     |
 | ---------------------------- | ------------------------------------------------ |
-| `markdown-diretto-0.1.1.xpi` | Installazione in Thunderbird                     |
+| `markdown-diretto-0.2.0.xpi` | Installazione in Thunderbird                     |
 | ZIP del repository           | Estrazione dei sorgenti e del bundle Git         |
 | `markdown-diretto.bundle`    | Clonazione con Git per recuperare tutti i commit |
 | `extension/manifest.json`    | Caricamento temporaneo per lo sviluppo           |
@@ -28,7 +28,7 @@ Nella segnalazione iniziale è stato selezionato lo ZIP del progetto. Quel file 
 Verifica un pacchetto dalla cartella del repository:
 
 ```powershell
-python tools/build.py --verify dist/markdown-diretto-0.1.1.xpi
+python tools/build.py --verify dist/markdown-diretto-0.2.0.xpi
 ```
 
 Se anche l'XPI corretto viene rifiutato, annota nome esatto del file, versione Thunderbird ed errore nella Console degli errori (`Ctrl+Shift+J`) al momento dell'installazione. I controlli locali verificano struttura e riferimenti, non sostituiscono il validatore interno di Thunderbird.
@@ -47,3 +47,9 @@ Testo **grassetto** e _corsivo_.
 ```
 
 Esegui conversione e ripristino. Prova prima senza firma, poi con firma esclusa dalla selezione. Non inviare email reali finché non hai controllato il risultato; per verificare l'invio usa un messaggio di prova a te stesso.
+
+## Aggiornamento 0.2.0: lettura
+
+Dopo l’aggiornamento accetta il nuovo permesso sui messaggi visualizzati, riavvia Thunderbird e riapri l’email. Il pulsante della lettura è nella barra della singola email, distinto da quello della composizione. Apri **Markdown Diretto → Mostra Markdown formattato** e poi **Mostra originale**.
+
+La modalità lettura interpreta il corpo testuale completo, anche firme/citazioni testuali. Non tenta di invertire l’HTML già formattato. Messaggi multipart complessi e le interruzioni di riga ricostruite da Thunderbird possono richiedere ulteriori affinamenti; la vista originale è sempre recuperabile anche riaprendo il messaggio.

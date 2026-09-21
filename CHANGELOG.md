@@ -9,6 +9,14 @@
 - CI Windows/Linux e suite Chromium separata.
 - Istruzioni esplicite sulla differenza tra ZIP sorgenti e XPI installabile.
 
+## 0.2.0 — Markdown in lettura
+
+- Pulsante dedicato nei messaggi ricevuti, con vista formattata e ripristino originale.
+- Trasformazione locale del documento visualizzato, senza API di scrittura dei messaggi.
+- Nuovo permesso `messagesModify` per gli script nel riquadro di lettura.
+- Renderer condiviso e 10 nuovi test di lettura e integrazione popup simulata.
+- Conversione/ripristino in composizione 0.1.1 confermati dall’utente; lettura da verificare sul client.
+
 ## 0.1.1 — Correzione identificatori nell’editor
 
 - Risolve `crypto.randomUUID is not a function` segnalato su Thunderbird 155.0.1 Windows.

@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = {
     "manifest.json", "popup.html", "popup.js", "popup.css", "compose.js",
     "renderer.js", "vendor/marked.js", "vendor/marked-LICENSE.md",
+    "reader.js", "reader-popup.js", "reader-popup.html",
 }
 
 
@@ -29,11 +30,12 @@ def validate_archive(path):
         manifest = json.loads(archive.read("manifest.json"))
         if manifest.get("manifest_version") != 2:
             raise ValueError("This build expects Manifest V2")
-        if manifest.get("permissions") != ["compose"]:
+        if manifest.get("permissions") != ["compose", "messagesModify"]:
             raise ValueError("Unexpected extension permissions")
-        popup = manifest["compose_action"]["default_popup"]
-        if popup not in names:
-            raise ValueError("Missing popup entry point: " + popup)
+        for action in ["compose_action", "message_display_action"]:
+            popup = manifest[action]["default_popup"]
+            if popup not in names:
+                raise ValueError("Missing popup entry point: " + popup)
         if not manifest["browser_specific_settings"]["gecko"].get("id"):
             raise ValueError("Missing Thunderbird extension ID")
         return manifest

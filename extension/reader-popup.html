@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <title>Markdown in lettura</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <h1>Markdown in lettura</h1>
+    <p>Mostra formattato il Markdown scritto nel messaggio ricevuto.</p>
+    <button id="render">Mostra Markdown formattato</button>
+    <button id="restore">Mostra originale</button>
+    <p class="hint">
+      Cambia solo la vista corrente. L’email salvata e gli allegati restano invariati.
+    </p>
+    <p id="status" role="status" aria-live="polite"></p>
+    <script src="reader-popup.js"></script>
+  </body>
+</html>

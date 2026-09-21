@@ -1,17 +1,21 @@
 {
   "manifest_version": 2,
   "name": "Markdown Diretto",
-  "version": "0.1.1",
-  "description": "Scrivi Markdown nel messaggio, convertilo in HTML e torna al sorgente.",
+  "version": "0.2.0",
+  "description": "Scrivi e leggi Markdown nelle email, con conversione reversibile della vista.",
   "browser_specific_settings": {
     "gecko": {
       "id": "markdown-diretto@alessandro-aprile.local",
       "strict_min_version": "128.0"
     }
   },
-  "permissions": ["compose"],
+  "permissions": ["compose", "messagesModify"],
   "compose_action": {
     "default_title": "Markdown Diretto",
     "default_popup": "popup.html"
+  },
+  "message_display_action": {
+    "default_title": "Markdown Diretto",
+    "default_popup": "reader-popup.html"
   }
 }

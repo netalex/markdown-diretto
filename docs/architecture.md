@@ -34,7 +34,7 @@ Riaprire una bozza o ricaricare l'estensione può perdere la mappa. L'HTML resta
 - Script classici perché vengono iniettati nell'editor; le inizializzazioni sono protette contro l'iniezione ripetuta.
 - `execCommand` è usato per tentare di mantenere l'annullamento nativo. È un punto da validare sul vero editor Gecko, non solo su Chromium.
 - Stili inline per l'HTML email; rendering finale dipendente dal client destinatario.
-- Nessun servizio remoto, telemetria, intercettazione dell'invio o permesso di lettura della posta ricevuta.
+- Nessun servizio remoto, telemetria, intercettazione dell'invio o accesso automatico alla posta ricevuta. La modalità lettura 0.2.0 richiede `messagesModify` e viene attivata dall’utente.
 
 ## Protezioni e limiti
 
@@ -53,3 +53,16 @@ La documentazione consultata riportava Thunderbird 155.0.1. Questi link seguono 
 ## Correzione 0.1.1
 
 Su Thunderbird 155.0.1 Windows l’installazione della 0.1.0 è riuscita, ma la conversione ha segnalato `crypto.randomUUID is not a function`. Gli identificatori servono solo a collegare DOM e snapshot: non devono essere UUID o token crittografici. La 0.1.1 usa un contatore locale e controlla collisioni sia nel DOM sia negli snapshot, senza dipendere da Web Crypto.
+
+## Modalità lettura (0.2.0)
+
+- `message_display_action` registra il secondo pulsante Thunderbird.
+- `reader-popup.js` inietta Marked, il renderer condiviso e `reader.js` nel messaggio visualizzato tramite `tabs.executeScript`.
+- `reader.js` estrae testo e interruzioni di riga dal corpo visualizzato (wrapper `.moz-text-plain`, `.moz-text-flowed`, `.moz-text-html`, altrimenti body).
+- Il corpo originale viene spostato in un DocumentFragment in memoria, mantenendo l’identità dei nodi. La vista temporanea contiene solo HTML generato dal renderer filtrato.
+- Il ripristino rimette gli stessi nodi e recupera la posizione di scorrimento. Se la vista non appartiene più al body, lo snapshot viene scartato per non ripristinare il messaggio precedente su una nuova email.
+- Nessun salvataggio, modifica MIME, lettura tramite `messages.get*` o API `compose` nel flusso di lettura.
+
+Il permesso `messagesModify` permette di intervenire sul documento visualizzato. Non viene richiesto `messagesRead`, perché non serve recuperare messaggi o intestazioni via API. La selezione multipla non è supportata; aprire una singola email.
+
+Riferimenti: [messageDisplayAction](https://webextension-api.thunderbird.net/en/mv2/messageDisplayAction.html), [messageDisplayScripts](https://webextension-api.thunderbird.net/en/mv2/messageDisplayScripts.html).

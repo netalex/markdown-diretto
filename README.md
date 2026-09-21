@@ -17,3 +17,53 @@ Scrivere nel normale editor di Thunderbird, convertire il testo selezionato e po
 - `tools/`: controlli e creazione del pacchetto XPI.
 - `docs/`: architettura, sviluppo, verifiche e pubblicazione.
 - `.github/`: automazione dei controlli e modello per le pull request.
+
+## Avvio rapido su Windows
+
+Prerequisiti per sviluppare: Git, Node.js 22 o successivo, npm e Python 3.10 o successivo, disponibili nel `PATH`. Per installare soltanto l'estensione non servono questi strumenti.
+
+Dalla cartella del repository:
+
+```powershell
+npm ci
+npm run check
+npm test
+npm run test:package
+npm run build
+```
+
+Installa **`dist/markdown-diretto-0.1.0.xpi`** in Thunderbird da **Componenti aggiuntivi e temi → ingranaggio → Installa componente aggiuntivo da file**.
+
+**Lo ZIP del repository non è installabile in Thunderbird.** Estrarlo o rinominarlo in `.xpi` non lo trasforma in un add-on: il pacchetto corretto è quello generato in `dist`.
+
+## Uso
+
+1. Apri un messaggio in formato HTML.
+2. Scrivi Markdown nel corpo: `**grassetto**`, `*corsivo*`, titoli, elenchi, tabelle o codice.
+3. Seleziona il testo, escludendo firma e messaggi citati.
+4. Apri **Markdown Diretto → Formatta Markdown**.
+5. Per tornare al sorgente, posiziona il cursore nel blocco e scegli **Torna al Markdown**.
+
+Senza selezione viene convertito tutto il corpo, purché non contenga firme, citazioni o contenuti protetti. Il ripristino è disponibile nella sessione corrente e viene rifiutato se il risultato è stato modificato. Non sopravvive necessariamente alla riapertura delle bozze.
+
+## Dove iniziare a leggere
+
+| Voglio…                                              | Documento                             |
+| ---------------------------------------------------- | ------------------------------------- |
+| Installare o capire l'errore “appears to be corrupt” | [Installazione](docs/installation.md) |
+| Modificare il codice su Windows                      | [Sviluppo](docs/development.md)       |
+| Capire file, flusso e limiti                         | [Architettura](docs/architecture.md)  |
+| Sapere cosa è stato verificato                       | [Test e collaudo](docs/testing.md)    |
+| Pubblicare repository e release                      | [GitHub](docs/publishing.md)          |
+| Capire l'ordine dei commit                           | [Cronologia](docs/commit-guide.md)    |
+| Scegliere il prossimo lavoro                         | [Roadmap](docs/roadmap.md)            |
+
+## Stato delle verifiche
+
+Sei test renderer e quattro test packaging passati nell'ambiente Linux di preparazione. Controlli di sintassi, formattazione e build passati. Suite editor Chromium predisposta ma bloccata qui dall'assenza del browser; installazione del browser fallita per timeout. Nessun collaudo completato su Thunderbird reale o Windows.
+
+La CI eseguirà controlli su Windows e Linux e una suite editor separata su Chromium dopo il push. Non è ancora stata eseguita su GitHub.
+
+## Distribuzione e licenze
+
+Il parser Marked e la sua licenza MIT sono inclusi. Il codice originale è marcato `UNLICENSED` finché il titolare sceglie la licenza del progetto; vedi [note sulle dipendenze](THIRD_PARTY_NOTICES.md). Il repository è pronto per il lavoro privato; prima di una pubblicazione open source aggiungere una licenza coerente con la scelta del titolare.

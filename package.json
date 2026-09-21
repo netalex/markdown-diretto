@@ -1,0 +1,25 @@
+{
+  "name": "markdown-diretto",
+  "version": "0.1.0",
+  "description": "Direct Markdown composition for Thunderbird",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node tools/check.mjs",
+    "test": "node --test tests/renderer.test.mjs",
+    "test:editor": "node --test tests/editor.test.mjs",
+    "test:all": "npm test && npm run test:editor",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "build": "python tools/build.py"
+  },
+  "devDependencies": {
+    "linkedom": "0.18.13",
+    "playwright": "1.62.1",
+    "prettier": "3.6.2"
+  }
+}

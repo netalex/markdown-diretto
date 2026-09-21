@@ -11,13 +11,13 @@
 
 ## Responsabilità dei file
 
-| File | Responsabilità | Non deve gestire |
-| --- | --- | --- |
-| `manifest.json` | Identità, permesso `compose`, popup, versione minima | Logica applicativa |
-| `popup.js` | API Thunderbird, comandi, errori visibili | Parsing Markdown |
-| `renderer.js` | Markdown → HTML filtrato, stili inline | Selezione e API Thunderbird |
-| `compose.js` | Selezione, protezioni, sostituzione, ripristino | Invio o persistenza delle email |
-| `vendor/marked.js` | Parser CommonMark/GFM | Regole di sicurezza specifiche dell'estensione |
+| File               | Responsabilità                                       | Non deve gestire                               |
+| ------------------ | ---------------------------------------------------- | ---------------------------------------------- |
+| `manifest.json`    | Identità, permesso `compose`, popup, versione minima | Logica applicativa                             |
+| `popup.js`         | API Thunderbird, comandi, errori visibili            | Parsing Markdown                               |
+| `renderer.js`      | Markdown → HTML filtrato, stili inline               | Selezione e API Thunderbird                    |
+| `compose.js`       | Selezione, protezioni, sostituzione, ripristino      | Invio o persistenza delle email                |
+| `vendor/marked.js` | Parser CommonMark/GFM                                | Regole di sicurezza specifiche dell'estensione |
 
 ## Stato e ripristino
 

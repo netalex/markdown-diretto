@@ -1,0 +1,51 @@
+# Architettura
+
+## Percorso di una conversione
+
+1. L'utente scrive nel corpo del messaggio e apre il popup dell'estensione.
+2. `popup.js` individua la finestra di composizione e verifica il formato HTML.
+3. Inietta, nell'ordine, Marked, `renderer.js` e `compose.js`.
+4. `compose.js` legge la selezione, controlla i contenuti protetti e chiede l'HTML al renderer.
+5. Il renderer interpreta il Markdown e ricostruisce il DOM con un elenco ristretto di elementi e attributi.
+6. `compose.js` inserisce il risultato con `execCommand('insertHTML')`; il popup marca il messaggio come modificato.
+
+## Responsabilità dei file
+
+| File | Responsabilità | Non deve gestire |
+| --- | --- | --- |
+| `manifest.json` | Identità, permesso `compose`, popup, versione minima | Logica applicativa |
+| `popup.js` | API Thunderbird, comandi, errori visibili | Parsing Markdown |
+| `renderer.js` | Markdown → HTML filtrato, stili inline | Selezione e API Thunderbird |
+| `compose.js` | Selezione, protezioni, sostituzione, ripristino | Invio o persistenza delle email |
+| `vendor/marked.js` | Parser CommonMark/GFM | Regole di sicurezza specifiche dell'estensione |
+
+## Stato e ripristino
+
+Ogni documento di composizione conserva una `Map` di snapshot in memoria. Un identificatore casuale sul blocco HTML collega il risultato allo snapshot; il Markdown originale non viene serializzato nell'email.
+
+Il ripristino è consentito solo se l'HTML attuale coincide con quello salvato subito dopo la conversione. Questa scelta conservativa protegge da sovrascritture, ma può rifiutare anche modifiche equivalenti introdotte dall'editor.
+
+Riaprire una bozza o ricaricare l'estensione può perdere la mappa. L'HTML resta nel messaggio; il recupero del Markdown tra sessioni è una funzionalità futura.
+
+## Scelte tecniche
+
+- JavaScript e HTML/CSS standard: nessun framework necessario per un popup di due comandi.
+- Manifest V2 e API pubbliche Thunderbird. Il numero minimo 128 nel manifest è ereditato dal prototipo, non certifica tutte le versioni successive.
+- Script classici perché vengono iniettati nell'editor; le inizializzazioni sono protette contro l'iniezione ripetuta.
+- `execCommand` è usato per tentare di mantenere l'annullamento nativo. È un punto da validare sul vero editor Gecko, non solo su Chromium.
+- Stili inline per l'HTML email; rendering finale dipendente dal client destinatario.
+- Nessun servizio remoto, telemetria, intercettazione dell'invio o permesso di lettura della posta ricevuta.
+
+## Protezioni e limiti
+
+HTML arbitrario nel Markdown viene reso testo. Le immagini Markdown diventano descrizioni inerti. I link attivi sono limitati a HTTP, HTTPS e mailto; niente link relativi. Il filtro DOM ricostruisce gli elementi ammessi senza copiare attributi arbitrari.
+
+Le firme e le citazioni vengono riconosciute dai marcatori DOM usuali di Thunderbird. Se sono presenti, è richiesta una selezione esplicita che le escluda. I marcatori di eventuali altre estensioni richiedono prove specifiche.
+
+## Documentazione API consultata per il prototipo
+
+- https://webextension-api.thunderbird.net/en/mv2/composeScripts.html
+- https://webextension-api.thunderbird.net/en/mv2/tabs.html
+- https://webextension-api.thunderbird.net/en/latest/compose.html
+
+La documentazione consultata riportava Thunderbird 155.0.1. Questi link seguono le versioni correnti del sito; non sono copie immutabili delle specifiche.

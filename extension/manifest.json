@@ -1,0 +1,9 @@
+{
+  "manifest_version": 2,
+  "name": "Markdown Diretto",
+  "version": "0.1.0",
+  "description": "Scrivi Markdown nel messaggio, convertilo in HTML e torna al sorgente.",
+  "browser_specific_settings": {"gecko": {"id": "markdown-diretto@alessandro-aprile.local", "strict_min_version": "128.0"}},
+  "permissions": ["compose"],
+  "compose_action": {"default_title": "Markdown Diretto", "default_popup": "popup.html"}
+}

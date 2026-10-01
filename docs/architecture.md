@@ -66,3 +66,7 @@ Su Thunderbird 155.0.1 Windows l’installazione della 0.1.0 è riuscita, ma la 
 Il permesso `messagesModify` permette di intervenire sul documento visualizzato. Non viene richiesto `messagesRead`, perché non serve recuperare messaggi o intestazioni via API. La selezione multipla non è supportata; aprire una singola email.
 
 Riferimenti: [messageDisplayAction](https://webextension-api.thunderbird.net/en/mv2/messageDisplayAction.html), [messageDisplayScripts](https://webextension-api.thunderbird.net/en/mv2/messageDisplayScripts.html).
+
+## Ripristino esatto del blocco
+
+Il comando Torna al Markdown sostituisce direttamente il blocco con il suo HTML originale. Non usa `execCommand(insertHTML)`, che in Chromium può conservare contenitori e titoli preesistenti. Gli altri nodi del messaggio non vengono modificati. La conversione continua a usare l’inserimento nativo; il ripristino diretto non costituisce una transazione nella cronologia undo del browser. Per alternare le due viste usare i comandi dell’estensione, non Ctrl+Z sul ripristino. Il popup segnala comunque la modifica a Thunderbird tramite `isModified`.

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Ripristino esatto del blocco Markdown, senza conservare titoli o contenitori HTML in Chromium.
+- Test di regressione su conversioni ripetute e modifiche esterne al blocco.
+
 - Repository organizzato con documentazione in italiano e commit tematici.
 - Dipendenze di sviluppo bloccate nel lockfile e formattazione uniforme.
 - Test separati per renderer, editor e packaging.

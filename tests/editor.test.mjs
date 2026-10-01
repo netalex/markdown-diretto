@@ -124,3 +124,36 @@ test('source is kept in memory, absent from generated message', async (t) => {
   assert.equal((await page.evaluate(() => MarkdownDiretto.render())).ok, true);
   assert.doesNotMatch(await page.locator('body').innerHTML(), /\*\*segreto\*\*/);
 });
+
+test('restored source has no rendered wrapper and can be formatted again', async (t) => {
+  const page = await setup(t, '<div># Titolo</div><div><br></div><div>**Testo**</div>');
+  const original = await page.locator('body').innerHTML();
+  for (let cycle = 0; cycle < 2; cycle++) {
+    const rendered = await page.evaluate(() => MarkdownDiretto.render());
+    assert.equal(rendered.ok, true, rendered.error);
+    const restored = await page.evaluate(() => MarkdownDiretto.restore());
+    assert.equal(restored.ok, true, restored.error);
+    assert.equal(await page.locator('[data-markdown-diretto], h1, strong').count(), 0);
+    assert.equal(await page.locator('body').innerHTML(), original);
+  }
+});
+
+test('restoring a selection preserves later edits outside the converted block', async (t) => {
+  const page = await setup(
+    t,
+    '<div id="mine">**Ciao**</div><div class="moz-signature">Firma</div>',
+  );
+  await page.evaluate(() => {
+    const range = document.createRange();
+    range.selectNodeContents(document.getElementById('mine'));
+    getSelection().removeAllRanges();
+    getSelection().addRange(range);
+  });
+  const rendered = await page.evaluate(() => MarkdownDiretto.render());
+  assert.equal(rendered.ok, true, rendered.error);
+  await page.evaluate(() => document.querySelector('.moz-signature').append(' aggiornata'));
+  const restored = await page.evaluate(() => MarkdownDiretto.restore());
+  assert.equal(restored.ok, true, restored.error);
+  assert.equal(await page.locator('#mine').innerHTML(), '**Ciao**');
+  assert.equal(await page.locator('.moz-signature').textContent(), 'Firma aggiornata');
+});

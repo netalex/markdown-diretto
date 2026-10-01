@@ -101,9 +101,19 @@
       throw new Error(
         'Hai modificato il testo formattato: il ripristino cancellerebbe le modifiche. Annullale con Ctrl+Z oppure conserva il testo attuale.',
       );
-    const target = document.createRange();
-    target.selectNode(block);
-    replace(target, snapshot.original);
+    // insertHTML can retain the selected block's heading and wrapper in Chromium.
+    // Restore only this block directly; unrelated edits elsewhere remain intact.
+    const original = document.createElement('div');
+    original.innerHTML = snapshot.original;
+    const nodes = [...original.childNodes];
+    const parent = block.parentNode;
+    block.replaceWith(...nodes);
+    const cursor = document.createRange();
+    cursor.selectNodeContents(nodes.at(-1) || parent);
+    cursor.collapse(false);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(cursor);
     return 'Sorgente Markdown ripristinato.';
   }
   const safe = (fn) => () => {

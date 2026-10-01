@@ -1,82 +1,133 @@
 # Markdown Diretto
 
-Estensione Thunderbird per scrivere Markdown nelle email e leggere formattato il Markdown grezzo dei messaggi ricevuti.
+**Scrivi in Markdown. Invia email formattate. Leggi il Markdown che ricevi.**
 
-**Stato: alpha.** Ambiente di riferimento: Thunderbird **155.0.1 Meadow, 64 bit, Windows**. Compatibilità sul client reale ancora da collaudare.
+Estensione per Thunderbird desktop, con comandi separati per composizione e lettura. Funziona localmente: nessun servizio esterno, account aggiuntivo o telemetria.
 
-Il progetto parte dal prototipo 0.1.0. La cronologia Git ricostruisce il lavoro in passi tematici, creati oggi: non rappresenta una cronologia storica precedente.
+**Versione 0.2.0 · Alpha · Interfaccia in italiano**
 
-## Obiettivo
+[Installazione](#installazione) · [Uso](#uso) · [Sviluppo](#sviluppo) · [Limiti](#limiti-attuali) · [Changelog](CHANGELOG.md)
 
-Scrivere nel normale editor di Thunderbird, convertire il testo selezionato e poter tornare al sorgente durante la stessa sessione di composizione. Firme e messaggi citati devono restare intatti.
+## Cosa fa
 
-## Organizzazione
+| In composizione                                    | In lettura                               |
+| -------------------------------------------------- | ---------------------------------------- |
+| Scrivi Markdown nel normale corpo dell’email       | Apri un’email contenente Markdown grezzo |
+| Formatta tutto il testo o una selezione            | Mostra il corpo come HTML formattato     |
+| Torna al sorgente durante la stessa sessione       | Ripristina la vista originale            |
+| Protegge firme e messaggi citati dalla conversione | Lascia invariato il messaggio salvato    |
 
-- `extension/`: file installati nell'estensione, senza compilazione JavaScript.
-- `tests/`: test del renderer e dell'editor, separati per ambiente.
-- `tools/`: controlli e creazione del pacchetto XPI.
-- `docs/`: architettura, sviluppo, verifiche e pubblicazione.
-- `.github/`: automazione dei controlli e modello per le pull request.
+Supporta titoli, grassetto, corsivo, elenchi annidati, citazioni, link, tabelle, codice, testo barrato e caselle di controllo rappresentate da simboli.
 
-## Avvio rapido su Windows
+## Installazione
 
-Prerequisiti per sviluppare: Git, Node.js 22 o successivo, npm e Python 3.10 o successivo, disponibili nel `PATH`. Per installare soltanto l'estensione non servono questi strumenti.
+Il file da installare è **`markdown-diretto-0.2.0.xpi`**. Puoi generarlo dai sorgenti seguendo la sezione [Sviluppo](#sviluppo).
 
-Dalla cartella del repository:
+1. Apri **Componenti aggiuntivi e temi** in Thunderbird.
+2. Dal menu con l’ingranaggio scegli **Installa componente aggiuntivo da file…**.
+3. Seleziona l’XPI e accetta i permessi richiesti.
+4. Dopo un aggiornamento, riavvia Thunderbird e riapri il messaggio.
+
+Lo ZIP dei sorgenti di GitHub **non è installabile** come estensione. Vedi [installazione e risoluzione dei problemi](docs/installation.md).
+
+## Uso
+
+### Scrivere un messaggio
+
+Apri una composizione in formato HTML e scrivi, ad esempio:
+
+```markdown
+## Aggiornamento progetto
+
+Ciao, ecco i **punti principali**:
+
+- Interfaccia pronta
+- Test in corso
+
+| Attività     | Stato       |
+| ------------ | ----------- |
+| Frontend     | Completato  |
+| Integrazione | In verifica |
+```
+
+Seleziona il testo, escludendo l’eventuale firma, e premi **Markdown Diretto → Formatta Markdown**. Per recuperare il sorgente, posiziona il cursore nel blocco e scegli **Torna al Markdown**.
+
+Senza selezione viene convertito tutto il corpo, purché non contenga firme, citazioni o contenuti già protetti. L’invio resta quello normale di Thunderbird.
+
+### Leggere un messaggio ricevuto
+
+Apri una singola email e usa **Markdown Diretto** nella barra del messaggio, vicino ai comandi di risposta:
+
+- **Mostra Markdown formattato** interpreta il testo del corpo.
+- **Mostra originale** ripristina la visualizzazione precedente.
+
+La trasformazione riguarda solo la vista corrente. Non riscrive l’email salvata e non modifica gli allegati. Sono previsti riquadro di lettura, scheda e finestra separata; il collaudo sul client reale della modalità lettura è ancora in corso.
+
+## Compatibilità e stato
+
+Ambiente di riferimento: **Thunderbird 155.0.1 Meadow, Windows 64 bit**.
+
+| Verifica                                       | Stato                                                            |
+| ---------------------------------------------- | ---------------------------------------------------------------- |
+| Conversione e ripristino in composizione 0.1.1 | Confermati dall’utente su Thunderbird                            |
+| Modalità lettura 0.2.0                         | Test automatici passati; da confermare sul client                |
+| Test JavaScript                                | 19 passati nell’ambiente di sviluppo                             |
+| Test del pacchetto XPI                         | 4 passati                                                        |
+| Test editor Chromium                           | Predisposti; esecuzione locale bloccata dal download del browser |
+| CI Windows/Linux                               | Workflow incluso; consultare gli esiti di GitHub Actions         |
+
+Il manifest ammette Thunderbird 128+, ma questo **non certifica tutte le versioni successive**. I test DOM non sostituiscono il collaudo Thunderbird. Dettagli e checklist in [docs/testing.md](docs/testing.md).
+
+## Limiti attuali
+
+- Il sorgente della composizione è mantenuto in memoria: può andare perso chiudendo una bozza o ricaricando l’estensione.
+- Il ripristino viene rifiutato se il blocco formattato è stato modificato, per evitare perdita di testo.
+- La lettura interpreta Markdown grezzo; non ricostruisce Markdown da un’email HTML già impaginata.
+- Immagini Markdown rappresentate come descrizioni testuali, HTML arbitrario reso inerte, nessuna evidenziazione sintattica del codice.
+- Link attivi limitati a HTTP, HTTPS e mailto. Resa grafica dipendente dal client email.
+- Nessuna conversione automatica all’invio o all’apertura di un messaggio.
+
+## Permessi e dati
+
+| Permesso         | Motivo                                           |
+| ---------------- | ------------------------------------------------ |
+| `compose`        | Leggere e formattare il testo nella composizione |
+| `messagesModify` | Cambiare il documento del messaggio visualizzato |
+
+L’estensione non usa servizi remoti e non invia dati a terzi. La modalità lettura non chiama API di scrittura dei messaggi. Il parser e le risorse sono inclusi nel pacchetto.
+
+## Sviluppo
+
+Richiede **Node.js 22+**, **npm** e **Python 3.10+**, disponibili nel PATH.
 
 ```powershell
 npm ci
 npm run check
+npm run format:check
 npm test
 npm run test:package
 npm run build
 ```
 
-Installa **`dist/markdown-diretto-0.2.0.xpi`** in Thunderbird da **Componenti aggiuntivi e temi → ingranaggio → Installa componente aggiuntivo da file**.
+Il pacchetto viene creato in `dist/markdown-diretto-0.2.0.xpi`.
 
-**Lo ZIP del repository non è installabile in Thunderbird.** Estrarlo o rinominarlo in `.xpi` non lo trasforma in un add-on: il pacchetto corretto è quello generato in `dist`.
+Per i test dell’editor:
 
-## Uso
+```powershell
+npx playwright install chromium
+npm run test:editor
+```
 
-1. Apri un messaggio in formato HTML.
-2. Scrivi Markdown nel corpo: `**grassetto**`, `*corsivo*`, titoli, elenchi, tabelle o codice.
-3. Seleziona il testo, escludendo firma e messaggi citati.
-4. Apri **Markdown Diretto → Formatta Markdown**.
-5. Per tornare al sorgente, posiziona il cursore nel blocco e scegli **Torna al Markdown**.
+| Percorso     | Contenuto                                        |
+| ------------ | ------------------------------------------------ |
+| `extension/` | Codice dell’estensione, popup e parser incluso   |
+| `tests/`     | Test renderer, composizione, lettura e packaging |
+| `tools/`     | Controlli e build XPI                            |
+| `docs/`      | Architettura, sviluppo, collaudo e pubblicazione |
+| `.github/`   | CI e modelli per segnalazioni e pull request     |
 
-Senza selezione viene convertito tutto il corpo, purché non contenga firme, citazioni o contenuti protetti. Il ripristino è disponibile nella sessione corrente e viene rifiutato se il risultato è stato modificato. Non sopravvive necessariamente alla riapertura delle bozze.
+Leggi la [guida Windows](docs/development.md), l’[architettura](docs/architecture.md) e le [convenzioni per contribuire](CONTRIBUTING.md). La [roadmap](docs/roadmap.md) raccoglie i prossimi passi; la [guida ai commit](docs/commit-guide.md) spiega l’evoluzione del progetto.
 
-## Dove iniziare a leggere
+## Licenza
 
-| Voglio…                                              | Documento                             |
-| ---------------------------------------------------- | ------------------------------------- |
-| Installare o capire l'errore “appears to be corrupt” | [Installazione](docs/installation.md) |
-| Modificare il codice su Windows                      | [Sviluppo](docs/development.md)       |
-| Capire file, flusso e limiti                         | [Architettura](docs/architecture.md)  |
-| Sapere cosa è stato verificato                       | [Test e collaudo](docs/testing.md)    |
-| Pubblicare repository e release                      | [GitHub](docs/publishing.md)          |
-| Capire l'ordine dei commit                           | [Cronologia](docs/commit-guide.md)    |
-| Scegliere il prossimo lavoro                         | [Roadmap](docs/roadmap.md)            |
-
-## Stato delle verifiche
-
-Sei test renderer, tre test di composizione senza Web Crypto e quattro test packaging passati nell'ambiente Linux di preparazione. Controlli di sintassi, formattazione e build passati. Suite editor Chromium predisposta ma bloccata qui dall'assenza del browser; installazione del browser fallita per timeout. L’utente ha installato la 0.1.0 su Thunderbird 155.0.1 Windows e segnalato l’errore `crypto.randomUUID is not a function`. La 0.1.1 lo corregge; il collaudo completo sul client resta da terminare.
-
-La CI eseguirà controlli su Windows e Linux e una suite editor separata su Chromium dopo il push. Non è ancora stata eseguita su GitHub.
-
-## Distribuzione e licenze
-
-Il parser Marked e la sua licenza MIT sono inclusi. Il codice originale è marcato `UNLICENSED` finché il titolare sceglie la licenza del progetto; vedi [note sulle dipendenze](THIRD_PARTY_NOTICES.md). Il repository è pronto per il lavoro privato; prima di una pubblicazione open source aggiungere una licenza coerente con la scelta del titolare.
-
-## Leggere Markdown nei messaggi ricevuti (0.2.0)
-
-Installa l’XPI aggiornato e accetta il nuovo permesso per intervenire sui messaggi visualizzati. Apri una singola email ricevuta e usa il pulsante **Markdown Diretto** nella barra del messaggio, accanto ai comandi di risposta; potrebbe essere nel menu di overflow.
-
-- **Mostra Markdown formattato**: interpreta il testo del corpo come Markdown.
-- **Mostra originale**: ripristina la visualizzazione originale.
-
-La trasformazione è solo nella vista corrente, non nel messaggio salvato. Non è una conversione HTML → Markdown e non viene attivata automaticamente. Sono previsti il riquadro di lettura, le schede e le finestre dei messaggi; tutti e tre richiedono collaudo sul client reale.
-
-Il permesso aggiunto è `messagesModify`, richiesto da Thunderbird per modificare il documento visualizzato. Nessuna chiamata alle API di scrittura delle email. La vista Markdown non incorpora immagini: torna all’originale per visualizzare il layout completo del mittente. L’email e gli allegati restano salvati come prima.
-
-Verifiche 0.2.0: **19 test JavaScript + 4 test packaging passati**. L’utente ha confermato conversione e ripristino in composizione nella 0.1.1; la nuova modalità lettura attende conferma su Thunderbird.
+Il codice originale non ha ancora una licenza open source: `UNLICENSED`. Marked è distribuito con la propria licenza MIT, inclusa nel repository. Vedi [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
